@@ -21,7 +21,7 @@ model Link {
     description String?
     fullText    String? @map("full_text")
 
-    category   Category? @relation(fields: [categoryId], references: [id])
+    category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
     categoryId String?   @map("category_id")
     user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId     String    @map("user_id")
