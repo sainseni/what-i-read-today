@@ -25,8 +25,7 @@ const Home: NextPage = () => {
             <Link
               className={styles.card}
               href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
+              target="_blank">
               <h3 className={styles.cardTitle}>First Steps →</h3>
               <div className={styles.cardText}>
                 Just the basics - Everything you need to know to set up your
@@ -36,8 +35,7 @@ const Home: NextPage = () => {
             <Link
               className={styles.card}
               href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
+              target="_blank">
               <h3 className={styles.cardTitle}>Documentation →</h3>
               <div className={styles.cardText}>
                 Learn more about Create T3 App, the libraries it uses, and how
@@ -64,7 +62,7 @@ const AuthShowcase: React.FC = () => {
 
   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
     undefined, // no input
-    { enabled: sessionData?.user !== undefined },
+    { enabled: sessionData?.user !== undefined }
   );
 
   return (
@@ -75,9 +73,17 @@ const AuthShowcase: React.FC = () => {
       </p>
       <button
         className={styles.loginButton}
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
+        onClick={
+          sessionData ? () => void signOut() : () => void signIn("github")
+        }>
+        {sessionData ? "Sign out" : "Sign in with Github"}
+      </button>
+      <button
+        className={styles.loginButton}
+        onClick={
+          sessionData ? () => void signOut() : () => void signIn("google")
+        }>
+        {sessionData ? "Sign out" : "Sign in with Google"}
       </button>
     </div>
   );
