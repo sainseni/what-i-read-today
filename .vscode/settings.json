@@ -1,4 +1,3 @@
 {
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.suggest.autoImports": true
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
