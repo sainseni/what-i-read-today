@@ -19,12 +19,11 @@ model Link {
     title       String
     url         String
     description String
-    fullText    String @map("full_text")
 
-    category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-    categoryId String?   @map("category_id")
-    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String    @map("user_id")
+    category Category[]
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @map("user_id")
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
