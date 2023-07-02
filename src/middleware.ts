@@ -6,7 +6,12 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => token !== undefined,
+      authorized: ({ token }) => {
+        if (token) {
+          return true;
+        }
+        return false;
+      },
     },
     pages: {
       signIn: "/auth/signin",
