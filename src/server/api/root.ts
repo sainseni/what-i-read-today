@@ -2,7 +2,7 @@ import { createTRPCRouter } from "./trpc";
 import { exampleRouter } from "./routers/example";
 import { prisma } from "~/src/server/db";
 import { linkRouter } from "~/src/server/api/routers/link";
-import { TEST_USER_ID } from "~/src/lib/constant";
+import { TEST_USER } from "~/src/lib/constant";
 /**
  * This is the primary router for your server.
  *
@@ -19,9 +19,9 @@ export type AppRouter = typeof appRouter;
 export const appTestCaller = appRouter.createCaller({
   session: {
     user: {
-      id: TEST_USER_ID,
-      email: "test@gmail.com",
-      name: "test",
+      id: TEST_USER.id,
+      email: TEST_USER.email,
+      name: TEST_USER.name,
     },
     expires: "9999-01-01T00:00:00.000Z",
   },

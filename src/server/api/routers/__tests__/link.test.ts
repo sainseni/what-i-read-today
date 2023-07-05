@@ -1,10 +1,31 @@
-import { TEST_USER_ID } from "~/src/lib/constant";
+import { TEST_USER } from "~/src/lib/constant";
 import { appTestCaller } from "~/src/server/api/root";
 import { prisma } from "~/src/server/db";
-import { clearTestData } from "~/src/utils/test";
 
 afterAll(async () => {
-  await clearTestData();
+  await prisma.link.deleteMany({
+    where: {
+      userId: TEST_USER.id,
+    },
+  });
+});
+
+beforeAll(async () => {
+  const isExist = await prisma.user.findUnique({
+    where: {
+      id: TEST_USER.id,
+    },
+  });
+
+  if (!isExist) {
+    await prisma.user.create({
+      data: {
+        id: TEST_USER.id,
+        email: TEST_USER.email,
+        name: TEST_USER.name,
+      },
+    });
+  }
 });
 
 describe("Create", () => {
@@ -12,8 +33,10 @@ describe("Create", () => {
     const result = await appTestCaller.link.create({
       link: "https://github.com",
     });
+    console.log(result);
 
     expect(result).toHaveProperty("id");
+    expect(result).toHaveProperty("title");
     expect(result).toHaveProperty("url");
     expect(result).toHaveProperty("description");
     expect(result).toHaveProperty("createdAt");
