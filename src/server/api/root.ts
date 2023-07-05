@@ -2,7 +2,7 @@ import { createTRPCRouter } from "./trpc";
 import { exampleRouter } from "./routers/example";
 import { prisma } from "~/src/server/db";
 import { linkRouter } from "~/src/server/api/routers/link";
-import { TEST_USER_ID } from "~/lib/constant";
+import { TEST_USER_ID } from "~/src/lib/constant";
 /**
  * This is the primary router for your server.
  *

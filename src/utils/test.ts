@@ -1,4 +1,4 @@
-import { TEST_USER_ID } from "~/lib/constant";
+import { TEST_USER_ID } from "~/src/lib/constant";
 import { prisma } from "~/src/server/db";
 
 export const clearTestData = async () => {

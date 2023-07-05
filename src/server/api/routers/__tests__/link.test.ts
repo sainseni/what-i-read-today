@@ -1,4 +1,4 @@
-import { TEST_USER_ID } from "~/lib/constant";
+import { TEST_USER_ID } from "~/src/lib/constant";
 import { appTestCaller } from "~/src/server/api/root";
 import { prisma } from "~/src/server/db";
 import { clearTestData } from "~/src/utils/test";
