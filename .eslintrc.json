@@ -1,7 +1,19 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "simple-import-sort", "prettier"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "rules": {
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "simple-import-sort/exports": "warn",
+    "simple-import-sort/imports": "warn"
+  },
   "overrides": [
     {
       "extends": [
+        "prettier",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
       ],
       "files": ["*.ts", "*.tsx"],
