@@ -12,20 +12,11 @@
   },
   "overrides": [
     {
-      "extends": [
-        "prettier",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-      ],
+      "extends": ["prettier"],
       "files": ["*.ts", "*.tsx"],
       "parserOptions": {
         "project": "tsconfig.json"
       }
     }
-  ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
-  "rules": {
-    "@typescript-eslint/consistent-type-imports": "warn"
-  }
+  ]
 }
