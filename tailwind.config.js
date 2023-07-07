@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Inter Variable", "sans-serif"],
+      },
       colors: {
         vprimary: {
           50: "#E6E6E6",
