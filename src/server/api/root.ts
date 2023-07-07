@@ -1,8 +1,9 @@
-import { createTRPCRouter } from "./trpc";
-import { exampleRouter } from "./routers/example";
-import { prisma } from "~/src/server/db";
-import { linkRouter } from "~/src/server/api/routers/link";
 import { TEST_USER } from "~/src/lib/constant";
+import { linkRouter } from "~/src/server/api/routers/link";
+import { prisma } from "~/src/server/db";
+
+import { exampleRouter } from "./routers/example";
+import { createTRPCRouter } from "./trpc";
 /**
  * This is the primary router for your server.
  *
