@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
 import { signIn } from "next-auth/react";
+
 import { getServerAuthSession } from "~/src/server/auth";
 
 export const getServerSideProps = async (

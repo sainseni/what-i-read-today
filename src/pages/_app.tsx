@@ -1,11 +1,14 @@
+import "~/src/styles/globals.css";
+// Supports weights 100-900
+import "@fontsource-variable/inter";
+
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-import { api } from "../utils/api";
-
-import "~/src/styles/globals.css";
 import { Toaster } from "~/src/components/ui/toaster";
+
+import { api } from "../utils/api";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
