@@ -1,5 +1,4 @@
 import { cva } from "class-variance-authority";
-import { signIn } from "next-auth/react";
 import type { ButtonHTMLAttributes } from "react";
 import type { IconType } from "react-icons";
 import { FcGoogle } from "react-icons/fc";
@@ -59,22 +58,21 @@ export function OAuthButton({
   provider,
   children,
   className,
-  ...props
 }: OAuthButtonProps) {
   const Icon = providerIcons[provider].icon;
   return (
-    <button
-      className={cn(
-        oauthButtonVariants({
-          provider,
-          className,
-        }),
-      )}
-      onClick={() => signIn(provider, { callbackUrl: "/" })}
-      {...props}
-    >
-      <Icon size="1.2em" className="mr-2 w-7 h-7" />
-      {children}
-    </button>
+    <a href={`/login/${provider}`}>
+      <button
+        className={cn(
+          oauthButtonVariants({
+            provider,
+            className,
+          }),
+        )}
+      >
+        <Icon size="1.2em" className="mr-2 w-7 h-7" />
+        {children}
+      </button>
+    </a>
   );
 }

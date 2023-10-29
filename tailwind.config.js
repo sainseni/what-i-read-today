@@ -46,6 +46,9 @@ module.exports = {
           900: "#330011",
           950: "#190008",
         },
+        danger: {
+          600: "#CC0044",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -1,4 +1,5 @@
-import Head from "next/head";
+
+// import Head from "next/head";
 
 // import { Navbar } from "~/src/components/ui/navbar";
 
@@ -7,12 +8,12 @@ type DefaultLayoutProps = {
   children: React.ReactNode;
 };
 
-export function DefaultLayout({ title, children }: DefaultLayoutProps) {
+export function DefaultLayout({  children }: DefaultLayoutProps) {
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>{title}</title>
-      </Head>
+      </Head> */}
       <div className="flex flex-col h-screen">
         {/* TODO
         <Navbar />

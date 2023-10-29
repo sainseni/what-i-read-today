@@ -1,28 +1,28 @@
-import type { GetServerSidePropsContext } from "next";
+// import type { GetServerSidePropsContext } from "next";
 
 import { DefaultLayout } from "~/src/components/Layout";
 import { OAuthButton } from "~/src/components/ui/oauth-button";
 import { paths } from "~/src/lib/constant";
-import { getServerAuthSession } from "~/src/server/auth";
+// import { getServerAuthSession } from "~/src/server/auth";
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const session = await getServerAuthSession(context);
+// export const getServerSideProps = async (
+//   context: GetServerSidePropsContext,
+// ) => {
+//   const session = await getServerAuthSession(context);
 
-  if (session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+//   if (session) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
 
-  return {
-    props: {},
-  };
-};
+//   return {
+//     props: {},
+//   };
+// };
 
 const Signin = () => {
   return (

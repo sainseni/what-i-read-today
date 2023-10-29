@@ -1,6 +1,8 @@
+"use client";
+
 import { ErrorPage } from "~/src/components/ui/error-page";
 
-export default function ErrorPage500() {
+export default function Error() {
   return (
     <ErrorPage message="Internal Server Error">
       <p className="text-vprimary-400">
