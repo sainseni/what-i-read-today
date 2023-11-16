@@ -1,9 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import Tab from "~/src/app/(protected)/tab";
+import logoIcon from "~/src/assets/Logo.svg";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,12 +33,19 @@ export default async function Layout({ children }: Props) {
   return (
     <div>
       <div className="flex justify-between px-10 py-5">
-        <div className="font-semibold text-2xl">What I Read Today</div>
-
+        <Link href="/dashboard">
+          <div className="flex space-x-2 items-end">
+            <Image src={logoIcon} alt="Logo What I Read Today" />
+            <div className="md:block hidden font-semibold text-2xl">
+              What I Read Today
+            </div>
+            <div className="block md:hidden font-semibold text-2xl">WIRT</div>
+          </div>
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="flex items-center space-x-3 text-base">
-              <div>{session.user.username}</div>
+              <div className="hidden md:block">{session.user.username}</div>
               <img
                 className="rounded-full h-10 w-10"
                 src={session.user.avatar}
