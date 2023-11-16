@@ -1,5 +1,4 @@
 "use client";
-
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
 import {
   flexRender,
@@ -8,6 +7,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useWindowSize } from "@uidotdev/usehooks";
 import { useState } from "react";
 
 import { Add } from "~/src/app/(protected)/dashboard/add";
@@ -23,16 +23,22 @@ import {
 } from "~/src/components/ui/table";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+  columnsMobile: ColumnDef<TData, TValue>[];
+  columnsDesktop: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
 export function DataTable<TData, TValue>({
-  columns,
+  columnsMobile,
+  columnsDesktop,
   data,
 }: DataTableProps<TData, TValue>) {
+  const size = useWindowSize();
+
   // const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const columns = size.width! < 768 ? columnsMobile : columnsDesktop;
 
   const table = useReactTable({
     data,

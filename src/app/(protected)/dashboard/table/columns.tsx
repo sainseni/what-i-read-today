@@ -24,11 +24,101 @@ export type Data = {
   isPublic: boolean;
 };
 
-export const columns: ColumnDef<Data>[] = [
+export const columnsMobile: ColumnDef<Data>[] = [
   {
     id: "title",
     header: "Title",
     accessorKey: "title",
+
+    cell({ row }) {
+      const data = row.original;
+
+      const format = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+      return (
+        <div className="space-y-1">
+          <div>
+            <Badge
+              variant="default"
+              className={
+                data.isPublic
+                  ? "bg-vprimary-50 text-vprimary-700"
+                  : "bg-vprimary-700 text-vprimary-50"
+              }
+            >
+              <div className="w-2 h-2 mr-2 rounded-full bg-current text-sm" />
+              {data.isPublic ? "Public" : "Private"}
+            </Badge>
+          </div>
+
+          <div className="pt-2">
+            <p className="font-medium">{data.title}</p>
+          </div>
+          <div>
+            <a
+              href={data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className=" text-gray-500"
+            >
+              {data.url}
+            </a>
+          </div>
+
+          <div className="text-gray-500 text-xs pt-1">
+            {format.format(new Date(data.updatedAt))}
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const link = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(link.url)}
+            >
+              Copy link
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                deleteLink(link.id);
+              }}
+            >
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
+
+export const columnsDesktop: ColumnDef<Data>[] = [
+  {
+    id: "title",
+    header: "Title",
+    accessorKey: "title",
+
     cell({ row }) {
       const link = row.original;
 
@@ -47,7 +137,6 @@ export const columns: ColumnDef<Data>[] = [
       );
     },
   },
-
   {
     header: "Visibility",
     accessorKey: "isPublic",

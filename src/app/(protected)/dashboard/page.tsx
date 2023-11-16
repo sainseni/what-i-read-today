@@ -1,11 +1,13 @@
 import { desc, eq } from "drizzle-orm";
 
-import { columns } from "~/src/app/(protected)/dashboard/table/columns";
+import {
+  columnsDesktop,
+  columnsMobile,
+} from "~/src/app/(protected)/dashboard/table/columns";
 import { DataTable } from "~/src/app/(protected)/dashboard/table/data-table";
 import { getPageSession } from "~/src/lib/auth";
 import { dbPool } from "~/src/lib/db";
 import dbSchema from "~/src/lib/db/schema";
-
 export default async function Page() {
   const session = await getPageSession();
 
@@ -18,7 +20,11 @@ export default async function Page() {
   return (
     <div>
       <div className="">
-        <DataTable data={data} columns={columns} />
+        <DataTable
+          data={data}
+          columnsDesktop={columnsDesktop}
+          columnsMobile={columnsMobile}
+        />
       </div>
     </div>
   );
