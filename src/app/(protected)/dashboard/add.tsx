@@ -25,7 +25,7 @@ export function Add() {
         <Button className="w-32">Add</Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="w-[90%] md:w-full">
         <DialogHeader>
           <DialogTitle>Add new link</DialogTitle>
           <DialogDescription>
@@ -35,8 +35,8 @@ export function Add() {
                   <Label>Link</Label>
                   <Input name="url" placeholder="https://example.com" />
                 </div>
-                <div className="flex space-x-2">
-                  <div className="space-y-2 w-1/2">
+                <div className="md:flex space-y-4 md:space-y-0 md:space-x-2">
+                  <div className="space-y-2 md:w-1/2">
                     <Label>Category (Optional)</Label>
                     <Select name="category">
                       <SelectTrigger className="w-full">
@@ -48,7 +48,7 @@ export function Add() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2 w-1/2">
+                  <div className="space-y-2 md:w-1/2">
                     <Label>Visibility</Label>
                     <Select defaultValue="public" name="visibility">
                       <SelectTrigger className="w-full">
