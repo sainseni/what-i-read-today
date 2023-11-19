@@ -1,4 +1,4 @@
-import Head from "next/head";
+// import Head from "next/head";
 import Image from "next/image";
 
 import notFoundSvg from "~/public/svg/not-found.svg";
@@ -16,9 +16,9 @@ export const ErrorPage = ({
 }: ErrorPageProps) => {
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>{message}</title>
-      </Head>
+      </Head> */}
       <main className="flex items-center justify-center w-screen min-h-screen bg-white">
         <div className="flex flex-col items-center max-w-lg gap-4 text-center">
           <Image src={svg} alt="Not found" priority />

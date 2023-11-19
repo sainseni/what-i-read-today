@@ -2,6 +2,10 @@ import Link from "next/link";
 
 import { ErrorPage } from "~/src/components/ui/error-page";
 
+export const metadata = {
+  title: "Page Not Found",
+};
+
 export default function NotFound() {
   return (
     <ErrorPage message="Page Not Found">
