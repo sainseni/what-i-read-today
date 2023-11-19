@@ -19,7 +19,7 @@ export default function Tab() {
 
   return (
     <div className="border-b-2 pb-2">
-      <div className="px-10">
+      <div className="px-3 md:px-10">
         <div className="space-x-8">
           {menus.map((menu) => (
             <Link

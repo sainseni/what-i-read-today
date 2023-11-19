@@ -32,7 +32,7 @@ export default async function Layout({ children }: Props) {
 
   return (
     <div>
-      <div className="flex justify-between px-10 py-5">
+      <div className="flex justify-between px-3 md:px-10 py-5">
         <Link href="/dashboard">
           <div className="flex space-x-2 items-end">
             <Image src={logoIcon} alt="Logo What I Read Today" />
@@ -64,7 +64,7 @@ export default async function Layout({ children }: Props) {
         </DropdownMenu>
       </div>
       <Tab />
-      <div className="px-10 py-5">{children}</div>
+      <div className="px-3 md:px-10 py-5">{children}</div>
     </div>
   );
 }
