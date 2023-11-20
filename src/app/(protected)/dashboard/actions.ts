@@ -13,32 +13,52 @@ import type { ServerAction } from "~/src/lib/types";
 export async function addLink(formData: FormData): ServerAction {
   const session = await getPageSession();
 
-  console.log(Object.fromEntries(formData.entries()));
-
   const schema = z.object({
     url: z.string().url(),
     visibility: z.enum(["public", "private"]).default("public"),
     category: z.string().optional(),
   });
 
-  const { url, visibility, category } = schema.parse(
-    Object.fromEntries(formData.entries()),
-  );
+  const parsed = schema.safeParse(Object.fromEntries(formData.entries()));
+
+  if (!parsed.success) {
+    return {
+      status: "error",
+      message: "Invalid form data",
+    };
+  }
+
+  const { url, visibility, category } = parsed.data;
 
   const metaData = await getMetaData(url);
 
-  if (!metaData.title || !metaData.description) {
+  const title =
+    metaData.title || metaData["og:title"] || metaData["twitter:title"];
+
+  const description =
+    metaData.description ||
+    metaData["og:description"] ||
+    metaData["twitter:description"];
+
+  if (!title) {
     return {
       status: "error",
-      message: "Error getting metadata",
+      message: "Could not find title",
+    };
+  }
+
+  if (!description) {
+    return {
+      status: "error",
+      message: "Could not find description",
     };
   }
 
   const input = await dbPool
     .insert(dbSchema.link)
     .values({
-      description: metaData.description as string,
-      title: metaData.title as string,
+      description: description as string,
+      title: title as string,
       url: url,
       userId: session.user.userId,
       isPublic: visibility === "public",
@@ -53,7 +73,8 @@ export async function addLink(formData: FormData): ServerAction {
 }
 
 export async function deleteLink(linkId: string): ServerAction {
-  const session = await getPageSession();
+  try {
+    const session = await getPageSession();
 
   const action = await dbPool
     .delete(dbSchema.link)
@@ -70,4 +91,18 @@ export async function deleteLink(linkId: string): ServerAction {
   return {
     status: "success",
   };
+  } catch (error) {
+
+    if (error instanceof Error) {
+      return {
+        status: "error",
+        message: error.message,
+      };
+    }
+
+    return {
+      status: "error",
+      message: "Unknown error"
+    };
+  }
 }
