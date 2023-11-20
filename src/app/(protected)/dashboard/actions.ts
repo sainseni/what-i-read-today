@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import getMetaData from "url-metadata";
 import { z } from "zod";
 
+import { metadata } from "~/src/app/error";
 import { getPageSession } from "~/src/lib/auth";
 import { dbPool } from "~/src/lib/db";
 import dbSchema from "~/src/lib/db/schema";
@@ -38,7 +39,8 @@ export async function addLink(formData: FormData): ServerAction {
   const description =
     metaData.description ||
     metaData["og:description"] ||
-    metaData["twitter:description"];
+    metaData["twitter:description"] ||
+    "-";
 
   if (!title) {
     return {
@@ -76,23 +78,22 @@ export async function deleteLink(linkId: string): ServerAction {
   try {
     const session = await getPageSession();
 
-  const action = await dbPool
-    .delete(dbSchema.link)
-    .where(
-      and(
-        eq(dbSchema.link.id, linkId),
-        eq(dbSchema.link.userId, session.user.userId),
-      ),
-    )
-    .execute();
+    const action = await dbPool
+      .delete(dbSchema.link)
+      .where(
+        and(
+          eq(dbSchema.link.id, linkId),
+          eq(dbSchema.link.userId, session.user.userId),
+        ),
+      )
+      .execute();
 
-  revalidatePath("/dashboard");
+    revalidatePath("/dashboard");
 
-  return {
-    status: "success",
-  };
+    return {
+      status: "success",
+    };
   } catch (error) {
-
     if (error instanceof Error) {
       return {
         status: "error",
@@ -102,7 +103,7 @@ export async function deleteLink(linkId: string): ServerAction {
 
     return {
       status: "error",
-      message: "Unknown error"
+      message: "Unknown error",
     };
   }
 }
