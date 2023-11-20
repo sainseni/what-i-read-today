@@ -94,11 +94,13 @@ export const columnsMobile: ColumnDef<Data>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(link.url)}
-            >
+              onClick={() => {
+                navigator.clipboard.writeText(link.url)
+                toast.success("Link copied successfully")
+              }}            >
               Copy link
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator /> */}
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem
               onClick={async () => {
@@ -195,14 +197,17 @@ export const columnsDesktop: ColumnDef<Data>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(link.url)}
+              onClick={() => {
+                navigator.clipboard.writeText(link.url)
+                toast.success("Link copied successfully")
+              }}
             >
               Copy link
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator /> */}
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem
-            onClick={async () => {
+              onClick={async () => {
                 const response = await deleteLink(link.id);
                 if (response.status === "success") {
                   toast.success("Link deleted successfully");
