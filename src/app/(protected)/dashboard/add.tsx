@@ -1,7 +1,13 @@
+"use client";
+
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { addLink } from "~/src/app/(protected)/dashboard/actions";
 import { Button } from "~/src/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -19,8 +25,11 @@ import {
 } from "~/src/components/ui/select";
 
 export function Add() {
+
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className="w-32">Add</Button>
       </DialogTrigger>
@@ -29,7 +38,19 @@ export function Add() {
         <DialogHeader>
           <DialogTitle>Add new link</DialogTitle>
           <DialogDescription>
-            <form action={addLink}>
+            <form
+              action={async (e) => {
+                const response = await addLink(e);
+                if (response.status === "success") {
+                  toast.success("Link added successfully");
+                  setIsOpen(false);
+                  return;
+                }
+
+                toast.error(`Something went wrong: ${response.message}`);
+                return;
+              }}
+            >
               <div className="mt-2 space-y-5">
                 <div className="space-y-2">
                   <Label>Link</Label>
@@ -63,10 +84,13 @@ export function Add() {
                 </div>
               </div>
               <div className="mt-7 flex space-x-2">
-                <Button className="w-1/2" variant="outline">
-                  Cancel
-                </Button>
-                <Button type="submit" className="w-1/2">
+                <DialogClose asChild>
+                  <Button className="w-1/2" variant="outline">
+                    Cancel
+                  </Button>
+                </DialogClose>
+
+                <Button type="submit" className="w-1/2" isLoadingButton>
                   Add
                 </Button>
               </div>
