@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { toast } from "sonner";
 
 import { deleteLink } from "~/src/app/(protected)/dashboard/actions";
 import { Badge } from "~/src/components/ui/badge";
@@ -100,8 +101,13 @@ export const columnsMobile: ColumnDef<Data>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {
-                deleteLink(link.id);
+              onClick={async () => {
+                const response = await deleteLink(link.id);
+                if (response.status === "success") {
+                  toast.success("Link deleted successfully");
+                  return;
+                }
+                toast.error(`Something went wrong: ${response.message}`);
               }}
             >
               Delete
@@ -196,8 +202,13 @@ export const columnsDesktop: ColumnDef<Data>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {
-                deleteLink(link.id);
+            onClick={async () => {
+                const response = await deleteLink(link.id);
+                if (response.status === "success") {
+                  toast.success("Link deleted successfully");
+                  return;
+                }
+                toast.error(`Something went wrong: ${response.message}`);
               }}
             >
               Delete
