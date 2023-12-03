@@ -1,35 +1,25 @@
-import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
-export default withAuth(
-  function middleware(req) {
-    console.log(req.nextauth.token);
-  },
-  {
-    callbacks: {
-      authorized: ({ token }) => {
-        if (token) {
-          return true;
-        }
-        return false;
-      },
-    },
-    pages: {
-      signIn: "/auth/signin",
-      signOut: "/auth/signout",
-      error: "/auth/error", // Error code passed in query string as ?error=
-    },
-  },
-);
+function middleware(request: Request) {
+  const requestHeaders = new Headers(request.headers);
+  const domain = requestHeaders.get("host") || "";
 
-export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|404|500).*)",
-  ],
-};
+  const [, pathnameWithSearchParams = ""] =
+    new RegExp(`https?://${domain}(.*)`).exec(request.url) || [];
+
+  const [pathname, searchParams] = pathnameWithSearchParams.split("?");
+
+  requestHeaders.set("x-request-domain", domain);
+  requestHeaders.set("x-request-url", request.url);
+
+  pathname && requestHeaders.set("x-request-pathname", pathname);
+  searchParams && requestHeaders.set("x-request-search", searchParams);
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+}
+
+export default middleware;

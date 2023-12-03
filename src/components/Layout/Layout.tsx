@@ -1,3 +1,5 @@
+"use client";
+
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
@@ -13,6 +15,7 @@ import { useSession } from "next-auth/react";
 import type { FC } from "react";
 import { Fragment, useState } from "react";
 
+import { session } from "~/src/lib/db/schema/auth";
 import { cn } from "~/src/utils/cn";
 
 const navigation = [
@@ -34,7 +37,7 @@ interface Props {
 }
 
 export const Layout: FC<Props> = ({ children }) => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -156,13 +159,13 @@ export const Layout: FC<Props> = ({ children }) => {
                             href="#"
                             className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
                           >
-                            <img
+                            {/* <img
                               className="h-8 w-8 rounded-full bg-gray-800"
                               src={session?.user.image}
                               alt=""
                             />
                             <span className="sr-only">Your profile</span>
-                            <span aria-hidden="true">{session?.user.name}</span>
+                            <span aria-hidden="true">{session?.user.name}</span> */}
                           </a>
                         </li>
                       </ul>
