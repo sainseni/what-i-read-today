@@ -14,8 +14,8 @@ export default async function Page() {
   const [data] = await dbPool
     .select()
     .from(dbSchema.user)
-    .where(eq(dbSchema.link.userId, session.user.userId))
-    .orderBy(desc(dbSchema.link.createdAt));
+    .where(eq(dbSchema.user.id, session.user.userId))
+    .limit(1)
 
   if (!data) {
     notFound();
