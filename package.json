@@ -12,7 +12,6 @@
     "format": "prettier -w .",
     "start": "next start",
     "test": "vitest",
-    "ps": "prsima studio",
     "db:pull": "drizzle-kit introspect:pg",
     "db:generate": "pnpm drizzle-kit generate:pg --schema=./src/lib/db/schema",
     "db:push": "drizzle-kit push:pg",
