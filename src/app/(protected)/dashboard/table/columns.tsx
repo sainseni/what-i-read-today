@@ -60,13 +60,8 @@ export const columnsMobile: ColumnDef<Data>[] = [
           <div className="pt-2">
             <p className="font-medium">{data.title}</p>
           </div>
-          <div>
-            <a
-              href={data.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className=" text-gray-500"
-            >
+          <div className="max-w-[230px] md:max-w-full truncate">
+            <a href={data.url} target="_blank" rel="noopener noreferrer">
               {data.url}
             </a>
           </div>
