@@ -67,7 +67,7 @@ export const columnsMobile: ColumnDef<Data>[] = [
           </div>
 
           <div className="text-gray-500 text-xs pt-1">
-            {format.format(new Date(data.updatedAt))}
+            {format.format(new Date(data.createdAt))}
           </div>
         </div>
       );
@@ -167,7 +167,7 @@ export const columnsDesktop: ColumnDef<Data>[] = [
   },
   {
     header: "Date",
-    accessorKey: "updatedAt",
+    accessorKey: "createdAt",
     cell({ getValue }) {
       const value = getValue() as string;
 
