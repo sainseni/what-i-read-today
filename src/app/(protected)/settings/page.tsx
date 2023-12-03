@@ -13,7 +13,7 @@ export default async function Page() {
 
   const [data] = await dbPool
     .select()
-    .from(dbSchema.link)
+    .from(dbSchema.user)
     .where(eq(dbSchema.link.userId, session.user.userId))
     .orderBy(desc(dbSchema.link.createdAt));
 
@@ -23,7 +23,7 @@ export default async function Page() {
 
   return (
     <div>
-      <SettingsPage userId={data.userId} isDev={isDev} />
+      <SettingsPage userId={data.id} isDev={isDev} />
     </div>
   );
 }
