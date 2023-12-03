@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   description: "A simple app to track what you read",
 };
 
-export default async function Layout({ children }: Props) {
+export default async function Layout({ children, }: Props) {
   const session = await getPageSession();
 
   if (!session) return redirect("/login");
@@ -64,7 +64,10 @@ export default async function Layout({ children }: Props) {
         </DropdownMenu>
       </div>
       <Tab />
-      <div className="px-3 md:px-10 py-5">{children}</div>
+      <div className="px-3 md:px-10 py-5">
+        <>{children}</>
+
+      </div>
     </div>
   );
 }

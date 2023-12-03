@@ -2,7 +2,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { useFormStatus } from 'react-dom'
+import { useFormStatus } from "react-dom";
 
 import { cn } from "~/src/utils/cn";
 
@@ -39,17 +39,17 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  isLoadingButton?: boolean;
+  // isLoadingButton?: boolean;
+  isLoading?: boolean;
   loadingText?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
- const Comp = asChild ? Slot : "button";
-   const { pending } = useFormStatus()
+  ({ className, variant, size, asChild = false, isLoading, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    //  const { pending } = useFormStatus()
 
-
-    if (props.isLoadingButton === true && pending === true) {
+    if (isLoading === true) {
       return (
         <Comp
           className={cn(
@@ -73,7 +73,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-                 {...props}/>
+        {...props}
+      />
     );
   },
 );

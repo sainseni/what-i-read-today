@@ -8,6 +8,7 @@ import { DataTable } from "~/src/app/(protected)/dashboard/table/data-table";
 import { getPageSession } from "~/src/lib/auth";
 import { dbPool } from "~/src/lib/db";
 import dbSchema from "~/src/lib/db/schema";
+
 export default async function Page() {
   const session = await getPageSession();
 

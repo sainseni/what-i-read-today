@@ -10,7 +10,7 @@ import {
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useState } from "react";
 
-import { Add } from "~/src/app/(protected)/dashboard/add";
+import { AddModal } from "~/src/app/(protected)/dashboard/@modal/add";
 import { Button } from "~/src/components/ui/button";
 import { Input } from "~/src/components/ui/input";
 import {
@@ -64,7 +64,8 @@ export function DataTable<TData, TValue>({
           }}
           className="w-full"
         />
-        <Add />
+
+        <AddModal />
       </div>
       <div className="rounded-md border">
         <Table>

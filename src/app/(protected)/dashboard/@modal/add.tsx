@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { set, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { addLink } from "~/src/app/(protected)/dashboard/actions";
+import type { AddLinkSchema } from "~/src/app/(protected)/dashboard/schema";
 import { Button } from "~/src/components/ui/button";
 import {
   Dialog,
@@ -24,9 +26,27 @@ import {
   SelectValue,
 } from "~/src/components/ui/select";
 
-export function Add() {
-
+export function AddModal() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    handleSubmit: formHandleSubmit,
+    register: formRegister,
+    formState,
+    setValue: formSetValue,
+  } = useForm();
+
+  const formOnSubmit = formHandleSubmit(async (data) => {
+    const response = await addLink(data as AddLinkSchema);
+    if (response.status === "success") {
+      toast.success("Link added successfully");
+      setIsOpen(false);
+      return;
+    }
+
+    toast.error(`Something went wrong: ${response.message}`);
+    return;
+  });
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -38,26 +58,17 @@ export function Add() {
         <DialogHeader>
           <DialogTitle>Add new link</DialogTitle>
           <DialogDescription>
-            <form
-              action={async (e) => {
-                const response = await addLink(e);
-                if (response.status === "success") {
-                  toast.success("Link added successfully");
-                  setIsOpen(false);
-                  return;
-                }
-
-                toast.error(`Something went wrong: ${response.message}`);
-                return;
-              }}
-            >
+            <form onSubmit={formOnSubmit}>
               <div className="mt-2 space-y-5">
                 <div className="space-y-2">
                   <Label>Link</Label>
-                  <Input name="url" placeholder="https://example.com" />
+                  <Input
+                    placeholder="https://example.com"
+                    {...formRegister("url")}
+                  />
                 </div>
                 <div className="md:flex space-y-4 md:space-y-0 md:space-x-2">
-                  <div className="space-y-2 md:w-1/2">
+                  {/* <div className="space-y-2 md:w-1/2">
                     <Label>Category (Optional)</Label>
                     <Select name="category">
                       <SelectTrigger className="w-full">
@@ -68,10 +79,17 @@ export function Add() {
                         <SelectItem value="private">Private</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
-                  <div className="space-y-2 md:w-1/2">
+                  </div> */}
+                  {/* <div className="space-y-2 md:w-1/2"> */}
+                  <div className="space-y-2 w-full">
                     <Label>Visibility</Label>
-                    <Select defaultValue="public" name="visibility">
+                    <Select
+                      defaultValue="public"
+                      name="visibility"
+                      onValueChange={(value) => {
+                        formSetValue("visibility", value);
+                      }}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Visibility" />
                       </SelectTrigger>
@@ -90,7 +108,11 @@ export function Add() {
                   </Button>
                 </DialogClose>
 
-                <Button type="submit" className="w-1/2" isLoadingButton>
+                <Button
+                  type="submit"
+                  className="w-1/2"
+                  isLoading={formState.isSubmitting}
+                >
                   Add
                 </Button>
               </div>

@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 import { deleteLink } from "~/src/app/(protected)/dashboard/actions";
@@ -95,13 +96,16 @@ export const columnsMobile: ColumnDef<Data>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
-                navigator.clipboard.writeText(link.url)
-                toast.success("Link copied successfully")
-              }}            >
+                navigator.clipboard.writeText(link.url);
+                toast.success("Link copied successfully");
+              }}
+            >
               Copy link
             </DropdownMenuItem>
             {/* <DropdownMenuSeparator /> */}
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <Link href={`/dashboard/${link.id}/edit`}>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem
               onClick={async () => {
                 const response = await deleteLink(link.id);
@@ -198,14 +202,16 @@ export const columnsDesktop: ColumnDef<Data>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
-                navigator.clipboard.writeText(link.url)
-                toast.success("Link copied successfully")
+                navigator.clipboard.writeText(link.url);
+                toast.success("Link copied successfully");
               }}
             >
               Copy link
             </DropdownMenuItem>
             {/* <DropdownMenuSeparator /> */}
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <Link href={`/dashboard/${link.id}/edit`}>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem
               onClick={async () => {
                 const response = await deleteLink(link.id);

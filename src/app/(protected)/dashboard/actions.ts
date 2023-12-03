@@ -2,34 +2,36 @@
 
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { useForm } from "react-hook-form";
 import getMetaData from "url-metadata";
 import { z } from "zod";
 
-import { metadata } from "~/src/app/error";
+import type {
+  AddLinkSchema,
+  UpdateLinkSchema,
+} from "~/src/app/(protected)/dashboard/schema";
+import {
+  addLinkSchema,
+  updateLinkSchema,
+} from "~/src/app/(protected)/dashboard/schema";
 import { getPageSession } from "~/src/lib/auth";
 import { dbPool } from "~/src/lib/db";
 import dbSchema from "~/src/lib/db/schema";
 import type { ServerAction } from "~/src/lib/types";
 
-export async function addLink(formData: FormData): ServerAction {
+export async function addLink(data: AddLinkSchema): ServerAction {
   const session = await getPageSession();
 
-  const schema = z.object({
-    url: z.string().url(),
-    visibility: z.enum(["public", "private"]).default("public"),
-    category: z.string().optional(),
-  });
-
-  const parsed = schema.safeParse(Object.fromEntries(formData.entries()));
+  const parsed = addLinkSchema.safeParse(data);
 
   if (!parsed.success) {
     return {
       status: "error",
-      message: "Invalid form data",
+      message: `Invalid data: ${parsed.error.message}`,
     };
   }
 
-  const { url, visibility, category } = parsed.data;
+  const { url, visibility } = parsed.data;
 
   const metaData = await getMetaData(url);
 
@@ -67,6 +69,47 @@ export async function addLink(formData: FormData): ServerAction {
     })
     .returning();
 
+  revalidatePath("/dashboard");
+
+  return {
+    status: "success",
+  };
+}
+
+export async function updateLink(data: UpdateLinkSchema): ServerAction {
+  const session = await getPageSession();
+
+  console.log(data);
+
+  const parsed = updateLinkSchema.safeParse(data);
+
+  if (!parsed.success) {
+    return {
+      status: "error",
+      message: `Invalid data: ${parsed.error.message}`,
+    };
+  }
+
+  const { url, visibility, id, description, title, category } = parsed.data;
+
+  const input = await dbPool
+    .update(dbSchema.link)
+    .set({
+      title: title,
+      description: description,
+      url: url,
+      isPublic: visibility === "public",
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(dbSchema.link.userId, session.user.userId),
+        eq(dbSchema.link.id, id),
+      ),
+    )
+    .returning();
+
+  revalidatePath(`/dashboard/${id}/edit`);
   revalidatePath("/dashboard");
 
   return {
